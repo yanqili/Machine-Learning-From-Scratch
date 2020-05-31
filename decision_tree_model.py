@@ -205,10 +205,15 @@ class ClassificationTree(DecisionTree):
         # print("most_common :",most_common)
         return most_common
 
-    def fit(self, X, y):
+    def __init__(self, **kwargs):
+        super(ClassificationTree, self).__init__(**kwargs)
         self._impurity_calculation = self._calculate_information_gain
         self._leaf_value_calculation = self._majority_vote
-        super(ClassificationTree, self).fit(X, y)
+
+#   def fit(self, X, y):
+#       self._impurity_calculation = self._calculate_information_gain
+#       self._leaf_value_calculation = self._majority_vote
+#       super(ClassificationTree, self).fit(X, y)
 
 class RegressionTree(DecisionTree):
     def _calculate_variance_reduction(self, y, y1, y2):
@@ -226,8 +231,12 @@ class RegressionTree(DecisionTree):
     def _mean_of_y(self, y):
         value = np.mean(y, axis=0)
         return value if len(value) > 1 else value[0]
-
-    def fit(self, X, y):
+    
+    def __init__(self, **kwargs):
+        super(RegressionTree, self).__init__(**kwargs)
         self._impurity_calculation = self._calculate_variance_reduction
         self._leaf_value_calculation = self._mean_of_y
-        super(RegressionTree, self).fit(X, y)       
+#   def fit(self, X, y):
+#       self._impurity_calculation = self._calculate_variance_reduction
+#       self._leaf_value_calculation = self._mean_of_y
+ #      super(RegressionTree, self).fit(X, y)       
