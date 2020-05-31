@@ -74,6 +74,7 @@ class DecisionTree(object):
     def _build_tree(self, X, y, current_depth=0):
         """ Recursive method which builds out the decision tree and splits X and respective y
         on the feature of X which (based on impurity) best separates the data"""
+        print('build current_depth:',current_depth)
         largest_impurity = 0
         best_criteria = None  # Feature index and threshold
         best_sets = None  # Subsets of the data
@@ -94,11 +95,15 @@ class DecisionTree(object):
 
                 # Iterate through all unique values of feature column i and
                 # calculate the impurity
+                print('-----------------')
+                print('unique_values',unique_values, 'feature_i,',feature_i)
                 for threshold in unique_values:
                     # Divide X and y depending on if the feature value of X at index feature_i
                     # meets the threshold
+                    print('- - - - - - - ',)
+                    print('threshold:',threshold)
                     Xy1, Xy2 = divide_on_feature(Xy, feature_i, threshold)
-
+                    print('Xy1:', Xy1, 'Xy2:',Xy2)
                     if len(Xy1) > 0 and len(Xy2) > 0:
                         # Select the y-values of the two sets
                         y1 = Xy1[:, n_features:]
@@ -106,6 +111,7 @@ class DecisionTree(object):
 
                         # Calculate impurity
                         impurity = self._impurity_calculation(y, y1, y2)
+                        print("impurity",impurity)
 
                         # If this threshold resulted in a higher information gain than previously
                         # recorded save the threshold value and the feature
@@ -225,7 +231,7 @@ class RegressionTree(DecisionTree):
 
         # Calculate the variance reduction
         variance_reduction = var_tot - (frac_1 * var_1 + frac_2 * var_2)
-
+        #print("variance_reduction:",variance_reduction)
         return sum(variance_reduction)
 
     def _mean_of_y(self, y):
